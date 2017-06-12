@@ -1,0 +1,24 @@
+{
+  "name": "dotted-line",
+  "version": "1.0.0",
+  "description": "一个 漂亮的背景图",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack -w",
+    "build": "webpack -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiaoyueguang/Dotted-line.git"
+  },
+  "author": "Ray",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xiaoyueguang/Dotted-line/issues"
+  },
+  "homepage": "https://github.com/xiaoyueguang/Dotted-line#readme",
+  "devDependencies": {
+    "webpack": "^2.6.1"
+  }
+}
