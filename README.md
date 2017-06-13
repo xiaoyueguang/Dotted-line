@@ -4,7 +4,7 @@
 ## 需要从该项目 学习并使用的内容
 * 添加测试
 * package.json
-* README.MD 文档编写(包括)
+* README.MD 文档编写
 * npm 发布
 * 自动化
 * 点移动的时候加入线性变化. linear, out-in.等
