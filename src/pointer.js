@@ -1,4 +1,4 @@
-import {random, width, height} from './helper'
+import {random, width, height} from './helper.js'
 // 点 对象
 export default class Pointer {
   constructor (width, height, r) {

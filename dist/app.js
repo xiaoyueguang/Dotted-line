@@ -79,39 +79,56 @@
 
 
 
-// 画布
-const $canvas = document.getElementById('canvas')
+class Canvas {
+  constructor ({
+    el,
+    limit = 10,
+    pointerWidth = 15,
+    width = __WEBPACK_IMPORTED_MODULE_1__helper__["a" /* width */],
+    height = __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* height */],
+  }) {
+    // 防止创建多次
+    this.isInited = false;
+    // 限制点数量
+    this.pointerLimit = limit;
+    // 点的宽度
+    this.pointerWidth = pointerWidth;
+    // 点集合
+    this.pointers = [];
+    // 上下文
+    this.ctx = null;
+    // 元素
+    this.el = null;
 
+    this.init(el, width, height)
 
-$canvas.width = __WEBPACK_IMPORTED_MODULE_1__helper__["a" /* width */];
-$canvas.height = __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* height */];
+    this.render()
+  }
 
-const canvas = {
-  isCreated: false,
-  pointerLimit: 10,
-  pointerWidth: 15,
-  pointer: [],
-  ctx: null,
-  el: null,
+  init ($el, width, height) {
+    if (this.isInited) return
 
-  created () {
-    if (this.isCreated) return
+    this.isInited = true
+    this.el = $el
+    this.el.width = width;
+    this.el.height = height;
 
-    this.isCreated = true
-    this.el = $canvas;
     this.ctx = this.el.getContext('2d')
 
     // 画点
     for (let i = 0; i < this.pointerLimit; i++) {
       this.pointerInit()
     }
-  },
-  // 生成 点
+
+  }
+
+  // 生成点
   pointerInit () {
     let pointer = new __WEBPACK_IMPORTED_MODULE_0__pointer_js__["a" /* default */](__WEBPACK_IMPORTED_MODULE_1__helper__["a" /* width */], __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* height */], this.pointerWidth)
-    this.pointer.push(pointer)
+    this.pointers.push(pointer)
     this.pointerRender(pointer)
-  },
+  }
+
   // 画点
   pointerRender (pointer) {
     this.ctx.beginPath()
@@ -124,17 +141,19 @@ const canvas = {
       true
     )
     this.ctx.fill()
-  },
+  }
+
   // 点跑起来
   pointerRun () {
-    this.pointer.forEach((pointer) => {
+    this.pointers.forEach((pointer) => {
       pointer.run()
       this.pointerRender(pointer)
     })
-  },
+  }
+
   // 画线
   lineRun () {
-    let pointer = this.pointer
+    let pointer = this.pointers
     let length = pointer.length
     let ctx = this.ctx
     for (let i = 0; i < length; i++) {
@@ -147,21 +166,21 @@ const canvas = {
         }
       }
     }
-  },
+  }
+
   // 画
-  render: function render () {
-    this.created()
+  render () {
     this.ctx.clearRect(0, 0, __WEBPACK_IMPORTED_MODULE_1__helper__["a" /* width */], __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* height */])
     this.ctx.fillStyle = '#f3f3f3'
     this.ctx.strokeStyle = '#f3f3f3'
     this.pointerRun()
     this.lineRun()
 
-    requestAnimationFrame(render.bind(this))
+    requestAnimationFrame(this.render.bind(this))
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (canvas);
+/* harmony default export */ __webpack_exports__["a"] = (Canvas);
 
 /***/ }),
 /* 1 */
@@ -170,9 +189,19 @@ const canvas = {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stage_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper__ = __webpack_require__(2);
 
 
-__WEBPACK_IMPORTED_MODULE_0__stage_js__["a" /* default */].render();
+
+// 画布
+const $canvas = document.getElementById('canvas')
+
+const canvas = new __WEBPACK_IMPORTED_MODULE_0__stage_js__["a" /* default */]({
+  el: $canvas,
+  limit: 33
+})
+
+
 
 /***/ }),
 /* 2 */
@@ -203,28 +232,28 @@ let height = parseInt(bodyHeight, 10)
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_js__ = __webpack_require__(2);
 
 // 点 对象
 class Pointer {
   constructor (width, height, r) {
-    this.x = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper__["c" /* random */])(width)
-    this.y = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper__["c" /* random */])(height)
+    this.x = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(width)
+    this.y = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(height)
     // 最小为 10
-    this.r = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper__["c" /* random */])(r, 1)
+    this.r = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(r, 1)
 
     this.targetInit()
   }
 
   // 生成目标点
   targetInit () {
-    this.targetX = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper__["c" /* random */])(__WEBPACK_IMPORTED_MODULE_0__helper__["a" /* width */])
-    this.targetY = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper__["c" /* random */])(__WEBPACK_IMPORTED_MODULE_0__helper__["b" /* height */])
+    this.targetX = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* width */])
+    this.targetY = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(__WEBPACK_IMPORTED_MODULE_0__helper_js__["b" /* height */])
   }
 
   move (pointer, targetPointer) {
     let outDo = targetPointer > pointer
-    let tween = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper__["c" /* random */])(300, 400)
+    let tween = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(300, 400)
     return outDo ?
       pointer + Math.abs(targetPointer - pointer) / tween :
       pointer - Math.abs(targetPointer - pointer) / tween

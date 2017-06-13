@@ -4,39 +4,56 @@
 import Pointer from './pointer.js'
 import {width, height} from './helper'
 
-// 画布
-const $canvas = document.getElementById('canvas')
+class Canvas {
+  constructor ({
+    el,
+    limit = 10,
+    pointerWidth = 15,
+    width = width,
+    height = height,
+  }) {
+    // 防止创建多次
+    this.isInited = false;
+    // 限制点数量
+    this.pointerLimit = limit;
+    // 点的宽度
+    this.pointerWidth = pointerWidth;
+    // 点集合
+    this.pointers = [];
+    // 上下文
+    this.ctx = null;
+    // 元素
+    this.el = null;
 
+    this.init(el, width, height)
 
-$canvas.width = width;
-$canvas.height = height;
+    this.render()
+  }
 
-const canvas = {
-  isCreated: false,
-  pointerLimit: 10,
-  pointerWidth: 15,
-  pointer: [],
-  ctx: null,
-  el: null,
+  init ($el, width, height) {
+    if (this.isInited) return
 
-  created () {
-    if (this.isCreated) return
+    this.isInited = true
+    this.el = $el
+    this.el.width = width;
+    this.el.height = height;
 
-    this.isCreated = true
-    this.el = $canvas;
     this.ctx = this.el.getContext('2d')
 
     // 画点
     for (let i = 0; i < this.pointerLimit; i++) {
       this.pointerInit()
     }
-  },
-  // 生成 点
+
+  }
+
+  // 生成点
   pointerInit () {
     let pointer = new Pointer(width, height, this.pointerWidth)
-    this.pointer.push(pointer)
+    this.pointers.push(pointer)
     this.pointerRender(pointer)
-  },
+  }
+
   // 画点
   pointerRender (pointer) {
     this.ctx.beginPath()
@@ -49,17 +66,19 @@ const canvas = {
       true
     )
     this.ctx.fill()
-  },
+  }
+
   // 点跑起来
   pointerRun () {
-    this.pointer.forEach((pointer) => {
+    this.pointers.forEach((pointer) => {
       pointer.run()
       this.pointerRender(pointer)
     })
-  },
+  }
+
   // 画线
   lineRun () {
-    let pointer = this.pointer
+    let pointer = this.pointers
     let length = pointer.length
     let ctx = this.ctx
     for (let i = 0; i < length; i++) {
@@ -72,18 +91,18 @@ const canvas = {
         }
       }
     }
-  },
+  }
+
   // 画
-  render: function render () {
-    this.created()
+  render () {
     this.ctx.clearRect(0, 0, width, height)
     this.ctx.fillStyle = '#f3f3f3'
     this.ctx.strokeStyle = '#f3f3f3'
     this.pointerRun()
     this.lineRun()
 
-    requestAnimationFrame(render.bind(this))
+    requestAnimationFrame(this.render.bind(this))
   }
 }
 
-export default canvas;
+export default Canvas;
