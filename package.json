@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack -w",
+    "server": "cd dist&&http-server",
     "build": "webpack -p"
   },
   "repository": {

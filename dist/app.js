@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,8 +71,32 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = random;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return width; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return height; });
+/**
+ * 生成一个随机数
+ * @param {number} max 随机数上限
+ * @param {number} min 随机数下限
+ */
+function random (max = 2, min = 1) {
+  return Math.floor(Math.random() * max) + (min)
+}
+
+// 获取屏幕宽高
+let {width: bodyWidth, height: bodyHeight} = getComputedStyle(document.body);
+
+let width = parseInt(bodyWidth, 10)
+let height = parseInt(bodyHeight, 10)
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pointer_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper__ = __webpack_require__(0);
 /**
  * 舞台
  */
@@ -84,8 +108,8 @@ class Canvas {
     el,
     limit = 10,
     pointerWidth = 15,
-    width = __WEBPACK_IMPORTED_MODULE_1__helper__["a" /* width */],
-    height = __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* height */],
+    width = __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* width */],
+    height = __WEBPACK_IMPORTED_MODULE_1__helper__["c" /* height */],
   }) {
     // 防止创建多次
     this.isInited = false;
@@ -104,15 +128,19 @@ class Canvas {
 
     this.render()
   }
-
+  // 初始化
   init ($el, width, height) {
+    // 防止初始化两次
     if (this.isInited) return
-
     this.isInited = true
+    // 保存 长宽
+    this.width = width;
+    this.height = height;
+    // 保存原本元素
     this.el = $el
     this.el.width = width;
     this.el.height = height;
-
+    // 获取上下文
     this.ctx = this.el.getContext('2d')
 
     // 画点
@@ -124,7 +152,7 @@ class Canvas {
 
   // 生成点
   pointerInit () {
-    let pointer = new __WEBPACK_IMPORTED_MODULE_0__pointer_js__["a" /* default */](__WEBPACK_IMPORTED_MODULE_1__helper__["a" /* width */], __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* height */], this.pointerWidth)
+    let pointer = new __WEBPACK_IMPORTED_MODULE_0__pointer_js__["a" /* default */](this.width, this.height, this.pointerWidth)
     this.pointers.push(pointer)
     this.pointerRender(pointer)
   }
@@ -142,6 +170,36 @@ class Canvas {
     )
     this.ctx.fill()
   }
+  /**
+   * 设置点数限制
+   * @param {number} limit
+   */
+  setLimit (limit) {
+    if (limit < 0) limit = 0
+    let _limit = this.pointers.length
+    if (limit > _limit) {
+      for(let i = 0; i < limit - _limit; i++) {
+        this.pointerInit()
+      }
+    } else {
+      for(let i = 0; i < _limit - limit; i++) {
+        this.pointers.shift()
+      }
+    }
+  }
+  /**
+   * 添加点
+   */
+  addPointer () {
+    this.setLimit(this.pointers.length + 1)
+  }
+  /**
+   * 删除点
+   */
+  delPointer () {
+    this.setLimit(this.pointers.length - 1)
+  }
+
 
   // 点跑起来
   pointerRun () {
@@ -170,7 +228,7 @@ class Canvas {
 
   // 画
   render () {
-    this.ctx.clearRect(0, 0, __WEBPACK_IMPORTED_MODULE_1__helper__["a" /* width */], __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* height */])
+    this.ctx.clearRect(0, 0, this.width, this.height)
     this.ctx.fillStyle = '#f3f3f3'
     this.ctx.strokeStyle = '#f3f3f3'
     this.pointerRun()
@@ -183,77 +241,59 @@ class Canvas {
 /* harmony default export */ __webpack_exports__["a"] = (Canvas);
 
 /***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stage_js__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper__ = __webpack_require__(2);
-
-
-
-// 画布
-const $canvas = document.getElementById('canvas')
-
-const canvas = new __WEBPACK_IMPORTED_MODULE_0__stage_js__["a" /* default */]({
-  el: $canvas,
-  limit: 33
-})
-
-
-
-/***/ }),
 /* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["c"] = random;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return width; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return height; });
-/**
- * 生成一个随机数
- * @param {number} max 随机数上限
- * @param {number} min 随机数下限
- */
-function random (max = 2, min = 1) {
-  return Math.floor(Math.random() * max) + (min)
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stage_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper__ = __webpack_require__(0);
+
+
+
+for (let i = 0; i < 4; i++) {
+  window[`canvas${i}`] = new __WEBPACK_IMPORTED_MODULE_0__stage_js__["a" /* default */]({
+    el: document.getElementById(`canvas${i}`),
+    width: 400,
+    height: 400,
+    limit: 15
+  })
 }
 
-// 获取屏幕宽高
-let {width: bodyWidth, height: bodyHeight} = getComputedStyle(document.body);
-
-let width = parseInt(bodyWidth, 10)
-let height = parseInt(bodyHeight, 10)
-
+setInterval(() => {
+  let canvas = window[`canvas${__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helper__["a" /* random */])(3)}`]
+  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helper__["a" /* random */])(2) > 1 ? canvas.addPointer() : canvas.delPointer()
+}, 100)
 
 /***/ }),
 /* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_js__ = __webpack_require__(0);
 
 // 点 对象
 class Pointer {
   constructor (width, height, r) {
-    this.x = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(width)
-    this.y = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(height)
+    this.width = width
+    this.height = height
+    this.x = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(width)
+    this.y = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(height)
     // 最小为 10
-    this.r = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(r, 1)
+    this.r = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(r, 1)
 
     this.targetInit()
   }
 
   // 生成目标点
   targetInit () {
-    this.targetX = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* width */])
-    this.targetY = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(__WEBPACK_IMPORTED_MODULE_0__helper_js__["b" /* height */])
+    this.targetX = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(this.width)
+    this.targetY = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(this.height)
   }
 
   move (pointer, targetPointer) {
     let outDo = targetPointer > pointer
-    let tween = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(300, 400)
+    let tween = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(300, 400)
     return outDo ?
       pointer + Math.abs(targetPointer - pointer) / tween :
       pointer - Math.abs(targetPointer - pointer) / tween

@@ -1,11 +1,16 @@
 import Canvas from './stage.js'
-import {width, height} from './helper'
+import {random} from './helper'
 
-// 画布
-const $canvas = document.getElementById('canvas')
+for (let i = 0; i < 4; i++) {
+  window[`canvas${i}`] = new Canvas({
+    el: document.getElementById(`canvas${i}`),
+    width: 400,
+    height: 400,
+    limit: 15
+  })
+}
 
-const canvas = new Canvas({
-  el: $canvas,
-  limit: 33
-})
-
+setInterval(() => {
+  let canvas = window[`canvas${random(3)}`]
+  random(2) > 1 ? canvas.addPointer() : canvas.delPointer()
+}, 100)

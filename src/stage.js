@@ -29,15 +29,19 @@ class Canvas {
 
     this.render()
   }
-
+  // 初始化
   init ($el, width, height) {
+    // 防止初始化两次
     if (this.isInited) return
-
     this.isInited = true
+    // 保存 长宽
+    this.width = width;
+    this.height = height;
+    // 保存原本元素
     this.el = $el
     this.el.width = width;
     this.el.height = height;
-
+    // 获取上下文
     this.ctx = this.el.getContext('2d')
 
     // 画点
@@ -49,7 +53,7 @@ class Canvas {
 
   // 生成点
   pointerInit () {
-    let pointer = new Pointer(width, height, this.pointerWidth)
+    let pointer = new Pointer(this.width, this.height, this.pointerWidth)
     this.pointers.push(pointer)
     this.pointerRender(pointer)
   }
@@ -67,6 +71,36 @@ class Canvas {
     )
     this.ctx.fill()
   }
+  /**
+   * 设置点数限制
+   * @param {number} limit
+   */
+  setLimit (limit) {
+    if (limit < 0) limit = 0
+    let _limit = this.pointers.length
+    if (limit > _limit) {
+      for(let i = 0; i < limit - _limit; i++) {
+        this.pointerInit()
+      }
+    } else {
+      for(let i = 0; i < _limit - limit; i++) {
+        this.pointers.shift()
+      }
+    }
+  }
+  /**
+   * 添加点
+   */
+  addPointer () {
+    this.setLimit(this.pointers.length + 1)
+  }
+  /**
+   * 删除点
+   */
+  delPointer () {
+    this.setLimit(this.pointers.length - 1)
+  }
+
 
   // 点跑起来
   pointerRun () {
@@ -95,7 +129,7 @@ class Canvas {
 
   // 画
   render () {
-    this.ctx.clearRect(0, 0, width, height)
+    this.ctx.clearRect(0, 0, this.width, this.height)
     this.ctx.fillStyle = '#f3f3f3'
     this.ctx.strokeStyle = '#f3f3f3'
     this.pointerRun()

@@ -1,7 +1,9 @@
-import {random, width, height} from './helper.js'
+import {random} from './helper.js'
 // 点 对象
 export default class Pointer {
   constructor (width, height, r) {
+    this.width = width
+    this.height = height
     this.x = random(width)
     this.y = random(height)
     // 最小为 10
@@ -12,8 +14,8 @@ export default class Pointer {
 
   // 生成目标点
   targetInit () {
-    this.targetX = random(width)
-    this.targetY = random(height)
+    this.targetX = random(this.width)
+    this.targetY = random(this.height)
   }
 
   move (pointer, targetPointer) {
