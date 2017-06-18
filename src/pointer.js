@@ -16,11 +16,13 @@ export default class Pointer {
   targetInit () {
     this.targetX = random(this.width)
     this.targetY = random(this.height)
+    console.log(this.targetX, this.targetY)
   }
 
   move (pointer, targetPointer) {
     let outDo = targetPointer > pointer
     let tween = random(300, 400)
+    // let tween = 300
     return outDo ?
       pointer + Math.abs(targetPointer - pointer) / tween :
       pointer - Math.abs(targetPointer - pointer) / tween

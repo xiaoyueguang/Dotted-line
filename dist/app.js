@@ -71,9 +71,9 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = random;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return width; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return height; });
+/* harmony export (immutable) */ __webpack_exports__["c"] = random;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return width; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return height; });
 /**
  * 生成一个随机数
  * @param {number} max 随机数上限
@@ -108,8 +108,8 @@ class Canvas {
     el,
     limit = 10,
     pointerWidth = 15,
-    width = __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* width */],
-    height = __WEBPACK_IMPORTED_MODULE_1__helper__["c" /* height */],
+    width = __WEBPACK_IMPORTED_MODULE_1__helper__["a" /* width */],
+    height = __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* height */],
   }) {
     // 防止创建多次
     this.isInited = false;
@@ -248,22 +248,31 @@ class Canvas {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stage_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tween_js__ = __webpack_require__(4);
 
 
 
-for (let i = 0; i < 4; i++) {
-  window[`canvas${i}`] = new __WEBPACK_IMPORTED_MODULE_0__stage_js__["a" /* default */]({
-    el: document.getElementById(`canvas${i}`),
-    width: 400,
-    height: 400,
-    limit: 15
-  })
-}
 
-setInterval(() => {
-  let canvas = window[`canvas${__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helper__["a" /* random */])(3)}`]
-  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helper__["a" /* random */])(2) > 1 ? canvas.addPointer() : canvas.delPointer()
-}, 100)
+// for (let i = 0; i < 4; i++) {
+//   window[`canvas${i}`] = new Canvas({
+//     el: document.getElementById(`canvas${i}`),
+//     width: 400,
+//     height: 400,
+//     limit: 15
+//   })
+// }
+
+// setInterval(() => {
+//   let canvas = window[`canvas${random(3)}`]
+//   random(2) > 1 ? canvas.addPointer() : canvas.delPointer()
+// }, 1000)
+
+window.canvas = new __WEBPACK_IMPORTED_MODULE_0__stage_js__["a" /* default */]({
+  el: document.getElementById('canvas0'),
+  width: 400,
+  height: 400,
+  limit: 1
+})
 
 /***/ }),
 /* 3 */
@@ -277,23 +286,25 @@ class Pointer {
   constructor (width, height, r) {
     this.width = width
     this.height = height
-    this.x = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(width)
-    this.y = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(height)
+    this.x = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(width)
+    this.y = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(height)
     // 最小为 10
-    this.r = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(r, 1)
+    this.r = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(r, 1)
 
     this.targetInit()
   }
 
   // 生成目标点
   targetInit () {
-    this.targetX = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(this.width)
-    this.targetY = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(this.height)
+    this.targetX = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(this.width)
+    this.targetY = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(this.height)
+    console.log(this.targetX, this.targetY)
   }
 
   move (pointer, targetPointer) {
     let outDo = targetPointer > pointer
-    let tween = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(300, 400)
+    let tween = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(300, 400)
+    // let tween = 300
     return outDo ?
       pointer + Math.abs(targetPointer - pointer) / tween :
       pointer - Math.abs(targetPointer - pointer) / tween
@@ -307,6 +318,65 @@ class Pointer {
   }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Pointer;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * 补间动画
+ * 返回的方法.
+ * 初始化 传入 一个 起点和终点.
+ * 根据 贝塞尔曲线. 返回一个 方法,
+ * 该方法接受一个 0 - 100 的数字
+ * 返回在某个点时 应该所在的数字.
+ * 
+ * 具体实现: 待调整
+ * linear 比例大概是 每次 都是为1
+ * ease 为
+ */
+
+/**
+ * linear
+ * @param {number} start 起点
+ * @param {number} end 终点
+ * @param {number} percent 百分比数字 0-100
+ * @return {number} 返回某个百分比下的位置
+ */
+const linear = (...rest) => calc(1, ...rest)
+
+/**
+ * ease
+ * TODO: 错误
+ * @param {number} start 起点
+ * @param {number} end 终点
+ * @param {number} percent 百分比数字 0-100
+ * @return {number} 返回某个百分比下的位置
+ * (x-50)(x-50) = y + 2400
+ */
+const ease = (...rest) => {
+  const [start, end, percent] = rest
+  return calc(Math.sqrt(percent + 2400) + 50, ...rest)
+}
+/**
+ * 计算
+ * @param {number} bezier 贝塞尔系数
+ * @param {number} start 起点
+ * @param {number} end 终点
+ * @param {number} percent 百分比数字 0-100
+ * @return {number} 返回某个百分比下的位置
+ */
+const calc = (bezier, start, end, percent) => {
+  let distance = Math.abs(start - end) * percent / 100 * bezier
+  return start > end ?
+    start - distance : start + distance
+}
+debugger
+/* unused harmony default export */ var _unused_webpack_default_export = ({
+  ease, linear
+});
 
 
 /***/ })
