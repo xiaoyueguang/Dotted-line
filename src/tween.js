@@ -46,7 +46,7 @@ const calc = (bezier, start, end, percent) => {
   return start > end ?
     start - distance : start + distance
 }
-debugger
+
 export default {
   ease, linear
 }

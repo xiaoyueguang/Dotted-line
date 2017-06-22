@@ -16,7 +16,6 @@ export default class Pointer {
   targetInit () {
     this.targetX = random(this.width)
     this.targetY = random(this.height)
-    console.log(this.targetX, this.targetY)
   }
 
   move (pointer, targetPointer) {

@@ -4,7 +4,7 @@
  * @param {number} min 随机数下限
  */
 export function random (max = 2, min = 1) {
-  return Math.floor(Math.random() * max) + (min)
+  return Math.round(Math.random() * (max - min)) + (min)
 }
 
 // 获取屏幕宽高
