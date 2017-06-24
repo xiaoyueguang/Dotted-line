@@ -2,31 +2,30 @@ import {expect} from 'chai'
 
 import Pointer from '../src/pointer'
 
-import {randomTest} from './helper'
+import {randomTest, sleep} from './helper'
 
 describe('Pointer', function () {
-  it('实例化: 静态代码检查', function () {
+  it('实例化: 静态属性检查', function () {
     let i = 0;
     while (i < 1000) {
       i++
-      let width = randomTest(1000)
-      let height = randomTest(1000)
+      let width = randomTest(1000, 0)
+      let height = randomTest(1000, 0)
       let r = randomTest(50) + 1
       let pointer = new Pointer(width, height, r)
       expect(pointer.width).to.equal(width)
       expect(pointer.height).to.equal(height)
       expect(pointer.r).to.not.be.below(1)
       expect(pointer.r).to.not.be.above(r)
-
     }
   })
 
-  it.skip('实例化: 生成点', function () {
+  it('实例化: 生成点', function () {
     let i = 0;
     while (i < 1000) {
       i++
-      let width = randomTest(1000)
-      let height = randomTest(1000)
+      let width = randomTest(1000, 1)
+      let height = randomTest(1000, 1)
       let r = randomTest(50) + 1
       let pointer = new Pointer(width, height, r)
 
@@ -55,18 +54,19 @@ describe('Pointer', function () {
       if (pointer > targetPointer) {
         expect(moved).to.at.least(targetPointer)
         expect(moved).to.at.most(pointer)
-      } else if (pointer > targetPointer) {
+      } else if (targetPointer > pointer) {
         expect(moved).to.at.least(pointer)
         expect(moved).to.at.most(targetPointer)
       } else {
-        // expect(moved).to.be.equal(targetPointer)
-        // expect(moved).to.be.equal(pointer)
+        expect(moved).to.be.equal(targetPointer)
+        expect(moved).to.be.equal(pointer)
       }
     }
 
-    it('实例化: 运行', function () {
+  })
 
-    })
+  it('实例化: 运行', function () {
+
   })
 
 })

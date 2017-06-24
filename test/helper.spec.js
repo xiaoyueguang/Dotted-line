@@ -22,11 +22,11 @@ describe('helper', function () {
   })
 
   it('width', function () {
-    expect(typeof width).to.be.equal('number')
+    expect(width).to.a('number')
   })
 
   it('height', function () {
-    expect(typeof height).to.be.equal('number')
+    expect(height).to.a('number')
   })
 
 })

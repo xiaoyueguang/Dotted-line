@@ -80,7 +80,7 @@
  * @param {number} min 随机数下限
  */
 function random (max = 2, min = 1) {
-  return Math.floor(Math.random() * max) + (min)
+  return Math.round(Math.random() * (max - min)) + (min)
 }
 
 // 获取屏幕宽高
@@ -357,7 +357,6 @@ class Pointer {
   targetInit () {
     this.targetX = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(this.width)
     this.targetY = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(this.height)
-    console.log(this.targetX, this.targetY)
   }
 
   move (pointer, targetPointer) {

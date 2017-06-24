@@ -4,7 +4,7 @@
   "description": "一个 漂亮的背景图",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "karma start",
     "start": "webpack -w",
     "server": "cd dist&&http-server",
     "build": "webpack -p"
