@@ -9,3 +9,7 @@ export function sleep (time) {
     }, time * 1000)
   })
 }
+
+export function getTime () {
+  return new Date().getTime()
+}

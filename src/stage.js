@@ -2,7 +2,7 @@
  * 舞台
  */
 import Pointer from './pointer.js'
-import {width, height} from './helper'
+import {width, height, random} from './helper'
 
 class Canvas {
   constructor ({
@@ -11,6 +11,7 @@ class Canvas {
     pointerWidth = 15,
     width = width,
     height = height,
+    time = 5
   }) {
     // 防止创建多次
     this.isInited = false;
@@ -24,6 +25,8 @@ class Canvas {
     this.ctx = null;
     // 元素
     this.el = null;
+    // 时间
+    this.time = time
 
     this.init(el, width, height)
 
@@ -53,7 +56,7 @@ class Canvas {
 
   // 生成点
   pointerInit () {
-    let pointer = new Pointer(this.width, this.height, this.pointerWidth)
+    let pointer = new Pointer(this.width, this.height, this.pointerWidth, random(this.time))
     this.pointers.push(pointer)
     this.pointerRender(pointer)
   }

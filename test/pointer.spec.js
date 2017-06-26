@@ -2,7 +2,7 @@ import {expect} from 'chai'
 
 import Pointer from '../src/pointer'
 
-import {randomTest, sleep} from './helper'
+import {randomTest, sleep, getTime} from './helper'
 
 describe('Pointer', function () {
   this.timeout(100000)
@@ -43,12 +43,12 @@ describe('Pointer', function () {
   })
   // 检测移动距离 以及 时间百分比
   it('实例化: 移动', function () {
-    let start = new Date().getTime()
+    let start = getTime()
     let pointer = new Pointer(1000, 1000, 5, 2)
     let length = Math.abs(pointer.origin.x - pointer.targetX)
 
     var timer = setInterval(() => {
-      let end = new Date().getTime()
+      let end = getTime()
       pointer.run()
 
       let distance = Math.floor(Math.abs(
@@ -63,13 +63,13 @@ describe('Pointer', function () {
   })
 
   it('实例化: 时间测试', function (done) {
-    let start = new Date().getTime()
+    let start = getTime()
 
     var pointer = new Pointer(1000, 1000, 5, 2)
     var timer = setInterval(() => {
       pointer.run()
       if (pointer.x === pointer.targetX) {
-        let end = new Date().getTime()
+        let end = getTime()
         clearInterval(timer)
 
         setTimeout(() => {
