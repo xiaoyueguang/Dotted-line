@@ -5,6 +5,8 @@ import Pointer from '../src/pointer'
 import {randomTest, sleep} from './helper'
 
 describe('Pointer', function () {
+  this.timeout(100000)
+
   it('实例化: 静态属性检查', function () {
     let i = 0;
     while (i < 1000) {
@@ -39,30 +41,43 @@ describe('Pointer', function () {
       expect(pointer.targetY).to.at.most(height)
     }
   })
+  // 检测移动距离 以及 时间百分比
+  it('实例化: 移动', function () {
+    let start = new Date().getTime()
+    let pointer = new Pointer(1000, 1000, 5, 2)
+    let length = Math.abs(pointer.origin.x - pointer.targetX)
 
-  it('原型方法: 移动', function () {
-    let i = 0;
-    while (i < 1000) {
-      i++
-      let pointer = randomTest(1000)
-      let targetPointer = randomTest(1000)
+    var timer = setInterval(() => {
+      let end = new Date().getTime()
+      pointer.run()
 
-      const move = Pointer.prototype.move
-
-      const moved = move(pointer, targetPointer)
-
-      if (pointer > targetPointer) {
-        expect(moved).to.at.least(targetPointer)
-        expect(moved).to.at.most(pointer)
-      } else if (targetPointer > pointer) {
-        expect(moved).to.at.least(pointer)
-        expect(moved).to.at.most(targetPointer)
-      } else {
-        expect(moved).to.be.equal(targetPointer)
-        expect(moved).to.be.equal(pointer)
+      let distance = Math.floor(Math.abs(
+        Math.abs(pointer.origin.x - pointer.x) / length
+      ))
+      expect(distance).to.at.most(Math.floor(pointer.getPercent()))
+      if (pointer.x === pointer.targetX) {
+        clearInterval(timer)
       }
-    }
+    })
 
+  })
+
+  it('实例化: 时间测试', function (done) {
+    let start = new Date().getTime()
+
+    var pointer = new Pointer(1000, 1000, 5, 2)
+    var timer = setInterval(() => {
+      pointer.run()
+      if (pointer.x === pointer.targetX) {
+        let end = new Date().getTime()
+        clearInterval(timer)
+
+        setTimeout(() => {
+          expect(end - start).to.at.most(2200)
+          done()
+        }, 200)
+      }
+    })
   })
 
   it('实例化: 运行', function () {

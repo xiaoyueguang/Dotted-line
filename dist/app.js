@@ -342,30 +342,43 @@ setInterval(() => {
 
 // 点 对象
 class Pointer {
-  constructor (width, height, r) {
+  constructor (width, height, r, time = 5) {
     this.width = width
     this.height = height
     this.x = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(width)
     this.y = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(height)
     // 最小为 10
     this.r = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(r, 1)
-
+    this.time = time * 1000
     this.targetInit()
+  }
+  // 设置开始时间
+  setStart () {
+    this.startTime = new Date().getTime()
+    this.endTime = this.startTime + this.time
   }
 
   // 生成目标点
   targetInit () {
     this.targetX = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(this.width)
     this.targetY = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(this.height)
+    this.setStart()
+  }
+  // 获取当前进度百分比
+  getPercent () {
+    let now = new Date().getTime()
+    return Math.floor(now - this.startTime / this.time * 100)
   }
 
   move (pointer, targetPointer) {
     let outDo = targetPointer > pointer
-    let tween = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(300, 400)
-    // let tween = 300
-    return outDo ?
-      pointer + Math.abs(targetPointer - pointer) / tween :
-      pointer - Math.abs(targetPointer - pointer) / tween
+    // let tween = random(300, 400)
+    // tween = 20
+    let tween = this.getPercent()
+    return pointer + Math.abs(targetPointer - pointer) * tween
+    // return outDo ?
+    //   pointer + Math.abs(targetPointer - pointer) / tween :
+    //   pointer - Math.abs(targetPointer - pointer) / tween
   }
 
   run () {
