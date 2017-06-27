@@ -11,7 +11,8 @@ class Canvas {
     pointerWidth = 15,
     width = width,
     height = height,
-    time = 5
+    time = 5,
+    color = ['#f3f3f3']
   }) {
     // 防止创建多次
     this.isInited = false;
@@ -27,6 +28,7 @@ class Canvas {
     this.el = null;
     // 时间
     this.time = time
+    this.color = color
 
     this.init(el, width, height)
 
@@ -56,7 +58,15 @@ class Canvas {
 
   // 生成点
   pointerInit () {
-    let pointer = new Pointer(this.width, this.height, this.pointerWidth, random(this.time))
+    let colorLength = this.color.length
+    let pointer = new Pointer(
+      this.width,
+      this.height,
+      this.pointerWidth,
+      random(this.time),
+      this.color[random(colorLength)]
+    )
+
     this.pointers.push(pointer)
     this.pointerRender(pointer)
   }
@@ -72,6 +82,7 @@ class Canvas {
       2 * Math.PI,
       true
     )
+    this.ctx.fillStyle = pointer.color
     this.ctx.fill()
   }
   /**
@@ -121,9 +132,17 @@ class Canvas {
     for (let i = 0; i < length; i++) {
       for (let j = 0; j < length; j++) {
         if (i !== j) {
+          let pointer1 = pointer[i]
+          let pointer2 = pointer[j]
+          let gradient = ctx.createLinearGradient(pointer1.x, pointer1.y, pointer2.x, pointer2.y)
+          gradient.addColorStop(0, pointer1.color)
+          gradient.addColorStop(1, pointer2.color)
+
           ctx.beginPath()
           ctx.moveTo(pointer[i].x, pointer[i].y)
           ctx.lineTo(pointer[j].x, pointer[j].y)
+
+          ctx.strokeStyle = gradient
           ctx.stroke()
         }
       }

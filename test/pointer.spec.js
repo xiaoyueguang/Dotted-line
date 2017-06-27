@@ -19,6 +19,7 @@ describe('Pointer', function () {
       expect(pointer.height).to.equal(height)
       expect(pointer.r).to.not.be.below(1)
       expect(pointer.r).to.not.be.above(r)
+      expect(pointer.color).to.be.equal('#f3f3f3')
     }
   })
 

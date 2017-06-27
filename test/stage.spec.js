@@ -6,7 +6,7 @@ import Canvas from '../src/stage'
 import Pointer from '../src/pointer'
 
 describe('stage', function () {
-  this.timeout(3000)
+  this.timeout(5000)
   let app
   beforeEach(function () {
     document.body.innerHTML = '<canvas id="canvas" />'
@@ -16,7 +16,19 @@ describe('stage', function () {
       pointerWidth: 15,
       width: 500,
       height: 500,
-      time: 2
+      time: 2,
+      color: [
+        '#EEEDF2',
+        '#B3B8C4',
+        '#DCEDF7',
+        '#4FB6F5',
+        '#B9E2FB',
+        '#F0BCBC',
+        '#FBDFE2',
+        '#DBD7D1',
+        '#D4C86D',
+        '#FA6D5D'
+      ]
     })
   })
 
@@ -30,11 +42,11 @@ describe('stage', function () {
     let start = getTime()
     // 表明 点都运动完毕
     setTimeout(() => {
-      app.pointers.map(({x, targetX}) => {
+      app.pointers.map(({color, x, targetX}) => {
         expect(x).to.be.equal(targetX)
       })
       done()
-    }, 2100)
+    }, 4000)
   })
 
   
