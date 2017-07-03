@@ -63,7 +63,7 @@ class Canvas {
       this.width,
       this.height,
       this.pointerWidth,
-      random(this.time),
+      this.time,
       this.color[random(colorLength)]
     )
 
