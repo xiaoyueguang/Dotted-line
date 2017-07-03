@@ -6,7 +6,10 @@
 - [ ] package.json
 - [ ] README.MD 文档编写
 - [ ] npm 发布
-- [ ] 自动化
+- [ ] 自动化
 - [ ] 点移动的时候加入线性变化. linear, out-in.等
 - [x] 点数量, 大小, 线的连接, 颜色渐变等.
 - [x] 多个舞台的实现
+
+## DEMO
+[链接](https://xiaoyueguang.github.io/Dotted-line/dist/index.html)

@@ -7,7 +7,7 @@
     "test": "karma start",
     "start": "webpack -w",
     "server": "cd dist&&http-server",
-    "build": "webpack -p"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",

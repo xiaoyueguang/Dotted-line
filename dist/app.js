@@ -71,9 +71,9 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = random;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return width; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return height; });
+/* harmony export (immutable) */ __webpack_exports__["c"] = random;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return width; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return height; });
 /**
  * 生成一个随机数
  * @param {number} max 随机数上限
@@ -108,8 +108,10 @@ class Canvas {
     el,
     limit = 10,
     pointerWidth = 15,
-    width = __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* width */],
-    height = __WEBPACK_IMPORTED_MODULE_1__helper__["c" /* height */],
+    width = __WEBPACK_IMPORTED_MODULE_1__helper__["a" /* width */],
+    height = __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* height */],
+    time = 5,
+    color = ['#f3f3f3']
   }) {
     // 防止创建多次
     this.isInited = false;
@@ -123,6 +125,9 @@ class Canvas {
     this.ctx = null;
     // 元素
     this.el = null;
+    // 时间
+    this.time = time
+    this.color = color
 
     this.init(el, width, height)
 
@@ -152,7 +157,15 @@ class Canvas {
 
   // 生成点
   pointerInit () {
-    let pointer = new __WEBPACK_IMPORTED_MODULE_0__pointer_js__["a" /* default */](this.width, this.height, this.pointerWidth)
+    let colorLength = this.color.length
+    let pointer = new __WEBPACK_IMPORTED_MODULE_0__pointer_js__["a" /* default */](
+      this.width,
+      this.height,
+      this.pointerWidth,
+      this.time,
+      this.color[__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helper__["c" /* random */])(colorLength)]
+    )
+
     this.pointers.push(pointer)
     this.pointerRender(pointer)
   }
@@ -168,6 +181,7 @@ class Canvas {
       2 * Math.PI,
       true
     )
+    this.ctx.fillStyle = pointer.color
     this.ctx.fill()
   }
   /**
@@ -217,9 +231,17 @@ class Canvas {
     for (let i = 0; i < length; i++) {
       for (let j = 0; j < length; j++) {
         if (i !== j) {
+          let pointer1 = pointer[i]
+          let pointer2 = pointer[j]
+          let gradient = ctx.createLinearGradient(pointer1.x, pointer1.y, pointer2.x, pointer2.y)
+          gradient.addColorStop(0, pointer1.color)
+          gradient.addColorStop(1, pointer2.color)
+
           ctx.beginPath()
           ctx.moveTo(pointer[i].x, pointer[i].y)
           ctx.lineTo(pointer[j].x, pointer[j].y)
+
+          ctx.strokeStyle = gradient
           ctx.stroke()
         }
       }
@@ -312,19 +334,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-for (let i = 0; i < 4; i++) {
+for (let i = 0; i < 1; i++) {
   window[`canvas${i}`] = new __WEBPACK_IMPORTED_MODULE_0__stage_js__["a" /* default */]({
     el: document.getElementById(`canvas${i}`),
     width: 400,
     height: 400,
-    limit: 15
+    limit: 15,
+    time: 60
   })
 }
 
 setInterval(() => {
-  let canvas = window[`canvas${__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helper__["a" /* random */])(3)}`]
-  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helper__["a" /* random */])(2) > 1 ? canvas.addPointer() : canvas.delPointer()
+  // let canvas = window[`canvas${random(1)}`]
+  // let canvas = window.canvas0
+  // random(2) > 1 ? canvas.addPointer() : canvas.delPointer()
 }, 1000)
+
+setInterval(() => {
+  let canvas = window.canvas0
+  canvas.pointers.forEach(pointer => {
+    pointer.targetInit()
+  })
+}, 60000)
 
 // window.canvas = new Canvas({
 //   el: document.getElementById('canvas0'),
@@ -340,17 +371,24 @@ setInterval(() => {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_js__ = __webpack_require__(0);
 
+
 // 点 对象
 class Pointer {
-  constructor (width, height, r, time = 5) {
+  constructor (width, height, r, time = 5, color = '#f3f3f3') {
     this.width = width
     this.height = height
-    this.x = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(width)
-    this.y = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(height)
+    let x = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(width)
+    let y = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(height)
+    this.x = x
+    this.y = y
+    this.origin = {x, y}
+
+    this.color = color
     // 最小为 10
-    this.r = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(r, 1)
+    this.r = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(r, 1)
     this.time = time * 1000
     this.targetInit()
+    this.isStart = true
   }
   // 设置开始时间
   setStart () {
@@ -360,32 +398,34 @@ class Pointer {
 
   // 生成目标点
   targetInit () {
-    this.targetX = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(this.width)
-    this.targetY = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["a" /* random */])(this.height)
+    // 当已经开始时, 需要设置原先的点
+    if (this.isStart) {
+      this.origin = {
+        x: this.targetX,
+        y: this.targetY
+      }
+    }
+    this.targetX = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(this.width)
+    this.targetY = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helper_js__["c" /* random */])(this.height)
     this.setStart()
   }
   // 获取当前进度百分比
   getPercent () {
     let now = new Date().getTime()
-    return Math.floor(now - this.startTime / this.time * 100)
+    let percent = Math.floor((now - this.startTime) / this.time * 10000) / 100
+    return percent > 100 ? 100 : percent
   }
 
   move (pointer, targetPointer) {
-    let outDo = targetPointer > pointer
-    // let tween = random(300, 400)
-    // tween = 20
     let tween = this.getPercent()
-    return pointer + Math.abs(targetPointer - pointer) * tween
-    // return outDo ?
-    //   pointer + Math.abs(targetPointer - pointer) / tween :
-    //   pointer - Math.abs(targetPointer - pointer) / tween
+    return targetPointer > pointer ?
+      pointer + Math.abs(targetPointer - pointer) * tween / 100 :
+      pointer - Math.abs(targetPointer - pointer) * tween / 100
   }
 
   run () {
-    // this.x = randomCalc(this.x, random())
-    // this.y = randomCalc(this.y, random())
-    this.x = this.move(this.x, this.targetX)
-    this.y = this.move(this.y, this.targetY)
+    this.x = this.move(this.origin.x, this.targetX)
+    this.y = this.move(this.origin.y, this.targetY)
   }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Pointer;
