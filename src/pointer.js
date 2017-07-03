@@ -12,11 +12,11 @@ export default class Pointer {
     this.origin = {x, y}
 
     this.color = color
-
     // 最小为 10
     this.r = random(r, 1)
     this.time = time * 1000
     this.targetInit()
+    this.isStart = true
   }
   // 设置开始时间
   setStart () {
@@ -26,6 +26,13 @@ export default class Pointer {
 
   // 生成目标点
   targetInit () {
+    // 当已经开始时, 需要设置原先的点
+    if (this.isStart) {
+      this.origin = {
+        x: this.targetX,
+        y: this.targetY
+      }
+    }
     this.targetX = random(this.width)
     this.targetY = random(this.height)
     this.setStart()
@@ -39,7 +46,6 @@ export default class Pointer {
 
   move (pointer, targetPointer) {
     let tween = this.getPercent()
-
     return targetPointer > pointer ?
       pointer + Math.abs(targetPointer - pointer) * tween / 100 :
       pointer - Math.abs(targetPointer - pointer) * tween / 100
