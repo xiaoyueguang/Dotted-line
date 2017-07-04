@@ -9,7 +9,7 @@ describe('Pointer', function () {
 
   it('实例化: 静态属性检查', function () {
     let i = 0;
-    while (i < 1000) {
+    while (i < 100) {
       i++
       let width = randomTest(1000, 0)
       let height = randomTest(1000, 0)
@@ -25,7 +25,7 @@ describe('Pointer', function () {
 
   it('实例化: 生成点', function () {
     let i = 0;
-    while (i < 1000) {
+    while (i < 100) {
       i++
       let width = randomTest(1000, 1)
       let height = randomTest(1000, 1)
@@ -45,7 +45,7 @@ describe('Pointer', function () {
   // 检测移动距离 以及 时间百分比
   it('实例化: 移动', function () {
     let start = getTime()
-    let pointer = new Pointer(1000, 1000, 5, 2)
+    let pointer = new Pointer(1000, 1000, 5, 0.1)
     let length = Math.abs(pointer.origin.x - pointer.targetX)
 
     var timer = setInterval(() => {
@@ -66,7 +66,7 @@ describe('Pointer', function () {
   it('实例化: 时间测试', function (done) {
     let start = getTime()
 
-    var pointer = new Pointer(1000, 1000, 5, 2)
+    var pointer = new Pointer(1000, 1000, 5, 0.1)
     var timer = setInterval(() => {
       pointer.run()
       if (pointer.x === pointer.targetX) {
@@ -81,8 +81,8 @@ describe('Pointer', function () {
     })
   })
 
-  it('实例化: 运行', function () {
+  // it('实例化: 运行', function () {
 
-  })
+  // })
 
 })
