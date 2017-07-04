@@ -2,7 +2,7 @@
   "name": "dotted-line",
   "version": "1.0.0",
   "description": "一个 漂亮的背景图",
-  "main": "index.js",
+  "main": "./dist/app.js",
   "scripts": {
     "test": "karma start",
     "start": "webpack -w",

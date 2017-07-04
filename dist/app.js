@@ -164,7 +164,7 @@ class Pointer {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pointer_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper_js__ = __webpack_require__(0);
 /**
  * 舞台
  */
@@ -176,8 +176,8 @@ class Canvas {
     el,
     limit = 10,
     pointerWidth = 15,
-    width = __WEBPACK_IMPORTED_MODULE_1__helper__["a" /* width */],
-    height = __WEBPACK_IMPORTED_MODULE_1__helper__["b" /* height */],
+    width = __WEBPACK_IMPORTED_MODULE_1__helper_js__["a" /* width */],
+    height = __WEBPACK_IMPORTED_MODULE_1__helper_js__["b" /* height */],
     time = 5,
     color = ['#f3f3f3']
   }) {
@@ -231,7 +231,7 @@ class Canvas {
       this.height,
       this.pointerWidth,
       this.time,
-      this.color[__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helper__["c" /* random */])(colorLength)]
+      this.color[__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__helper_js__["c" /* random */])(colorLength)]
     )
 
     this.pointers.push(pointer)
@@ -281,7 +281,6 @@ class Canvas {
   delPointer () {
     this.setLimit(this.pointers.length - 1)
   }
-
 
   // 点跑起来
   pointerRun () {
