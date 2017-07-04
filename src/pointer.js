@@ -13,7 +13,7 @@ export default class Pointer {
 
     this.color = color
     // 最小为 10
-    this.r = random(r, 1)
+    this.r = r
     this.time = time * 1000
     this.targetInit()
     this.isStart = true

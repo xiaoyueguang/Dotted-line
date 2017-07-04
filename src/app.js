@@ -4,22 +4,25 @@
 import Pointer from './pointer.js'
 import {width, height, random} from './helper.js'
 
+const DEFAULT_COLOR = '#f3f3f3'
+
 class Canvas {
   constructor ({
     el,
     limit = 10,
-    pointerWidth = 15,
+    radius = 15,
     width = width,
     height = height,
     time = 5,
-    color = ['#f3f3f3']
+    color = [DEFAULT_COLOR],
+    isSameRadius = false
   }) {
     // 防止创建多次
     this.isInited = false;
     // 限制点数量
-    this.pointerLimit = limit;
+    this.limit = limit;
     // 点的宽度
-    this.pointerWidth = pointerWidth;
+    this.radius = radius;
     // 点集合
     this.pointers = [];
     // 上下文
@@ -29,6 +32,8 @@ class Canvas {
     // 时间
     this.time = time
     this.color = color
+    // 是否相同半径
+    this.isSameRadius = isSameRadius
 
     this.init(el, width, height)
 
@@ -50,7 +55,7 @@ class Canvas {
     this.ctx = this.el.getContext('2d')
 
     // 画点
-    for (let i = 0; i < this.pointerLimit; i++) {
+    for (let i = 0; i < this.limit; i++) {
       this.pointerInit()
     }
 
@@ -58,13 +63,14 @@ class Canvas {
 
   // 生成点
   pointerInit () {
-    let colorLength = this.color.length
+    const colorLength = this.color.length
+    const radius = this.isSameRadius ? this.radius : random(this.radius, 1)
     let pointer = new Pointer(
       this.width,
       this.height,
-      this.pointerWidth,
+      radius,
       this.time,
-      this.color[random(colorLength)]
+      this.color[random(colorLength) - 1]
     )
 
     this.pointers.push(pointer)
@@ -114,7 +120,28 @@ class Canvas {
   delPointer () {
     this.setLimit(this.pointers.length - 1)
   }
-
+  /**
+   * 设置颜色
+   * @param {array} color 颜色集合
+   */
+  setColors (colors = [DEFAULT_COLOR]) {
+    this.color = colors
+    const colorLength = colors.length
+    this.pointers.forEach(pointer => {
+      pointer.color = colors[random(colorLength) - 1]
+    })
+  }
+  /**
+   * 设置点的半径
+   * @param {number} radius 半径
+   */
+  setRadius (radius) {
+    this.radius = radius
+    
+    this.pointers.forEach(pointer => {
+      pointer.r = this.isSameRadius ? this.radius : random(this.radius, 1)
+    })
+  }
   // 点跑起来
   pointerRun () {
     this.pointers.forEach((pointer) => {
@@ -151,8 +178,8 @@ class Canvas {
   // 画
   render () {
     this.ctx.clearRect(0, 0, this.width, this.height)
-    this.ctx.fillStyle = '#f3f3f3'
-    this.ctx.strokeStyle = '#f3f3f3'
+    this.ctx.fillStyle = DEFAULT_COLOR
+    this.ctx.strokeStyle = DEFAULT_COLOR
     this.pointerRun()
     this.lineRun()
 
