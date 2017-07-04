@@ -2,52 +2,32 @@
 <html>
   <head>
     <title>一个 DEMO</title>
+    <style>
+      .text {
+        display: inline-block;
+        width: 32px;
+      }
+      .colors div {
+        margin-top: 8px;
+        width: 64px;
+        height: 24px;
+        display: inline-block;
+        cursor: pointer;
+        margin-right: 4px;
+      }
+    </style>
   </head>
   <body>
     <form>
-      <label for="">点的数量 <span id="pointers_text">15</span></label>
-      <input type="range" name="" value="15" max="30" id="pointers">
-      <label for="">时间</label>
-      <input type="range" name="" value="60" max="" id="time">
+      <label>点的数量 <span id="pointers_text" class="text">15</span></label>
+      <input type="range" value="15" max="30" id="pointers">
+      <br />
+      <input type="color" value="#f3f3f3" max="30" id="color">
+      <label>添加的颜色(点击删除颜色)</label>
+      <div id="colors" class="colors">
+      </div>
     </form>
     <canvas id="canvas"></canvas>
-    <script type="module">
-      import Canvas from '../src/app.js'
-
-      let $ = id => document.getElementById(id)
-
-      const canvas = $('canvas')
-
-      const stage = new Canvas({
-        el: canvas,
-        width: 800,
-        height: 800,
-        limit: 15,
-        time: 30
-      })
-
-      const pointers = $('pointers')
-      const time = $('time')
-      let pointer_nums = pointers.value
-
-      pointers.addEventListener('input', ({target: {value}}) => {
-        setPointersText(value)
-        setPointers(value)
-      })
-
-      function setPointers (value) {
-        if (stage.pointers.length > value) {
-          stage.delPointer()
-          setPointers(value)
-        }
-        if (stage.pointers.length < value) {
-          stage.addPointer()
-          setPointers(value)
-        }
-      }
-
-      const pointers_text = $('pointers_text')
-      const setPointersText = val => $('pointers_text').innerHTML = val
-    </script>
+    <script type="module" src="./index.js"></script>
   </body>
 </html>
