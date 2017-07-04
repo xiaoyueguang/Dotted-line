@@ -8,18 +8,18 @@ let $ = id => document.getElementById(id)
 
 const canvas = $('canvas')
 
-let stage;
+const colors = ['#f3f3f3']
 
-function stageInit () {
-  stage = new Canvas({
-    el: canvas,
-    width: 800,
-    height: 800,
-    limit: 15,
-    time: 30,
-    color: colors
-  })
-}
+const stage = new Canvas({
+  el: canvas,
+  width: 800,
+  height: 800,
+  limit: 15,
+  radius: 15,
+  time: 30,
+  color: colors,
+  isSameRadius: false
+})
 
 // 点
 const pointers = $('pointers')
@@ -54,13 +54,14 @@ const setPointersText = val => $('pointers_text').innerHTML = val
 
 // 颜色
 const $color = $('color')
+
 $color.addEventListener('change', function (event) {
   colors.push(this.value)
   colorInitElements()
+  stage.setColors(colors)
 })
 
 const $colors = $('colors')
-const colors = ['#f3f3f3']
 
 colorInitElements()
 /**
@@ -71,8 +72,6 @@ function colorInitElements () {
   colors.forEach((color, index) => {
     addColor(color, index)
   })
-  // 重新生成舞台布景
-  stageInit()
 }
 /**
  * 添加一个颜色
@@ -104,3 +103,19 @@ function addRemoveColor ($el) {
   })
   return $el
 }
+
+// 点半径
+const $radius = $('radius')
+const $radius_text = $('radius_text')
+
+$radius.addEventListener('input', ({target: {value}}) => {
+  $radius_text.innerHTML = value
+  stage.setRadius(value)
+})
+
+// 点半径大小一致
+const $same = $('same')
+$same.addEventListener('change', ({target: {checked}}) => {
+  stage.isSameRadius = checked
+  stage.setRadius(stage.radius)
+})

@@ -137,7 +137,6 @@ class Canvas {
    */
   setRadius (radius) {
     this.radius = radius
-    
     this.pointers.forEach(pointer => {
       pointer.r = this.isSameRadius ? this.radius : random(this.radius, 1)
     })
