@@ -13,7 +13,7 @@
 
 ## DEMO
 [链接](https://xiaoyueguang.github.io/Dotted-line/dist/index.html)  
-[覆盖率测试](https://xiaoyueguang.github.io/Dotted-line/coverage/Chrome 59.0.3071 (Mac OS X 10.12.5)/index.html)
+[覆盖率测试](https://xiaoyueguang.github.io/Dotted-line/coverage/Chrome%2059.0.3071%20(Mac%20OS%20X%2010.12.5)/index.html)
 
 ## API
 ### 实例化方法
