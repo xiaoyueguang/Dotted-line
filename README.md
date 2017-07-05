@@ -12,8 +12,8 @@
 - [x] 多个舞台的实现
 
 ## DEMO
-[链接](https://xiaoyueguang.github.io/Dotted-line/dist/index.html)
-[覆盖率测试](https://xiaoyueguang.github.io/Dotted-line/coverage/index.html)
+[链接](https://xiaoyueguang.github.io/Dotted-line/dist/index.html)  
+[覆盖率测试](https://xiaoyueguang.github.io/Dotted-line/coverage/Chrome 59.0.3071 (Mac OS X 10.12.5)/index.html)
 
 ## API
 ### 实例化方法
