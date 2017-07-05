@@ -5,7 +5,7 @@
 - [x] 添加测试
 - [x] package.json
 - [x] README.MD 文档编写
-- [ ] npm 发布
+- [x] npm 发布
 - [ ] 自动化
 - [ ] 点移动的时候加入线性变化. linear, out-in.等
 - [x] 点数量, 大小, 线的连接, 颜色渐变等.
