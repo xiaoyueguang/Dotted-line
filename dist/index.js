@@ -1,4 +1,3 @@
-import Canvas from '../src/app.js'
 
 /**
  * 获取 id 值为 id 的dom
@@ -16,7 +15,7 @@ const stage = new Canvas({
   height: 800,
   limit: 15,
   radius: 15,
-  time: 30,
+  time: 120,
   color: colors,
   isSameRadius: false
 })

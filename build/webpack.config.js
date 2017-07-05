@@ -3,9 +3,9 @@ const webpack = require('webpack')
 
 module.exports = () => {
   return {
-    entry: './src/app.js',
+    entry: path.resolve(__dirname, '../src/app.js'),
     output: {
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, '../dist'),
       filename: 'app.js'
     },
     devtool: 'inline-source-map',

@@ -4,11 +4,12 @@
   "description": "一个 漂亮的背景图",
   "main": "./dist/app.js",
   "scripts": {
-    "test": "karma start",
-    "test:cover": "karma start karma.cover.conf.js",
-    "start": "webpack -w",
+    "test": "karma start build/karma.conf.js",
+    "test:cover": "karma start build/karma.cover.conf.js",
+    "start": "webpack -w --config build/webpack.config.js",
     "server": "cd dist&&http-server",
-    "build": "webpack"
+    "build": "webpack --config build/webpack.config.js",
+    "release": "bash build/release.sh"
   },
   "repository": {
     "type": "git",

@@ -10,13 +10,13 @@ module.exports = function(config) {
   config.set({
     frameworks: ['mocha'],
     files: [
-      'test/**/*.js',
-      'src/**/*.js'
+      '../test/**/*.js',
+      '../src/**/*.js'
     ],
 
     preprocessors: {
-      'test/**/*.js': ['webpack', 'coverage'],
-      'src/**/*.js': ['webpack', 'coverage']
+      '../test/**/*.js': ['webpack', 'coverage'],
+      '../src/**/*.js': ['webpack', 'coverage']
     },
 
     babelPreprocessor: {
