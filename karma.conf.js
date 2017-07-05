@@ -3,6 +3,7 @@
 var webpackConfig = require('./webpack.config')()
 delete webpackConfig.devtool
 delete webpackConfig.entry
+delete webpackConfig.output
 
 module.exports = function(config) {
   config.set({

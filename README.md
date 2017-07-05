@@ -13,6 +13,7 @@
 
 ## DEMO
 [链接](https://xiaoyueguang.github.io/Dotted-line/dist/index.html)
+[覆盖率测试](https://xiaoyueguang.github.io/Dotted-line/coverage/index.html)
 
 ## API
 ### 实例化方法
