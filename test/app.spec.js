@@ -28,7 +28,8 @@ describe('stage', function () {
         '#DBD7D1',
         '#D4C86D',
         '#FA6D5D'
-      ]
+      ],
+      bezier: 'linear'
     })
   })
 
@@ -83,4 +84,6 @@ describe('stage', function () {
       expect(colors).to.include(color)
     })
   })
+
+  // it.skip('添加贝塞尔曲线')
 })

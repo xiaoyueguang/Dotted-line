@@ -1,8 +1,9 @@
 import {random} from './helper.js'
+import tween from './tween'
 
 // 点 对象
 export default class Pointer {
-  constructor (width, height, r, time = 5, color = '#f3f3f3') {
+  constructor (width, height, r, time = 5, color = '#f3f3f3', bezier = 'linear') {
     this.width = width
     this.height = height
     let x = random(width)
@@ -10,7 +11,7 @@ export default class Pointer {
     this.x = x
     this.y = y
     this.origin = {x, y}
-
+    this.bezier = bezier
     this.color = color
     // 最小为 10
     this.r = r
@@ -45,10 +46,11 @@ export default class Pointer {
   }
 
   move (pointer, targetPointer) {
-    let tween = this.getPercent()
+    let percent = this.getPercent()
+
     return targetPointer > pointer ?
-      pointer + Math.abs(targetPointer - pointer) * tween / 100 :
-      pointer - Math.abs(targetPointer - pointer) * tween / 100
+      pointer + Math.abs(targetPointer - pointer) * tween[this.bezier](percent) :
+      pointer - Math.abs(targetPointer - pointer) * tween[this.bezier](percent)
   }
 
   run () {

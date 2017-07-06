@@ -9,15 +9,18 @@ const canvas = $('canvas')
 
 const colors = ['#f3f3f3']
 
-const stage = new Canvas({
+// DottedLine.prototype.addBezier('test', [1, .16, .18, .74])
+
+const stage = new DottedLine({
   el: canvas,
   width: 800,
   height: 800,
   limit: 15,
   radius: 15,
-  time: 120,
+  time: 4,
   color: colors,
-  isSameRadius: false
+  isSameRadius: false,
+  // bezier: 'test'
 })
 
 // 点

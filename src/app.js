@@ -3,6 +3,7 @@
  */
 import Pointer from './pointer.js'
 import {width, height, random} from './helper.js'
+import {addBezier} from './tween'
 
 const DEFAULT_COLOR = '#f3f3f3'
 
@@ -15,7 +16,8 @@ class Canvas {
     height = height,
     time = 5,
     color = [DEFAULT_COLOR],
-    isSameRadius = false
+    isSameRadius = false,
+    bezier = 'linear'
   }) {
     // 防止创建多次
     this.isInited = false;
@@ -31,7 +33,10 @@ class Canvas {
     this.el = null;
     // 时间
     this.time = time
+    // 颜色
     this.color = color
+    // 贝塞尔曲线
+    this.bezier = bezier
     // 是否相同半径
     this.isSameRadius = isSameRadius
 
@@ -70,7 +75,8 @@ class Canvas {
       this.height,
       radius,
       this.time,
-      this.color[random(colorLength) - 1]
+      this.color[random(colorLength) - 1],
+      this.bezier
     )
 
     this.pointers.push(pointer)
@@ -149,6 +155,15 @@ class Canvas {
     })
   }
 
+  /**
+   * 添加贝塞尔曲线
+   * @param {string} name 贝塞尔曲线名称
+   * @param {array} coefficient 贝塞尔曲线系数
+   */
+  addBezier (name, coefficient) {
+    addBezier(name, coefficient)
+  }
+
   // 画线
   lineRun () {
     let pointer = this.pointers
@@ -186,4 +201,5 @@ class Canvas {
   }
 }
 
-export default Canvas;
+export default Canvas
+window.DottedLine = Canvas
