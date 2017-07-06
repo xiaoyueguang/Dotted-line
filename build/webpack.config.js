@@ -9,14 +9,14 @@ module.exports = () => {
       filename: 'app.js'
     },
     devtool: 'inline-source-map',
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          use: 'babel-loader',
-          exclude: /node_modules/
-        }
-      ]
-    }
+    // module: {
+    //   rules: [
+    //     {
+    //       test: /\.js$/,
+    //       use: 'babel-loader',
+    //       exclude: /node_modules/
+    //     }
+    //   ]
+    // }
   }
 }
