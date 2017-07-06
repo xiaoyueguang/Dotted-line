@@ -10,31 +10,17 @@ module.exports = function(config) {
   config.set({
     frameworks: ['mocha'],
     files: [
-      '../test/**/*.js',
-      '../src/**/*.js'
+      // '../test/**/*.js',
+      '../src/**/*.js',
+      './app.js'
     ],
 
     preprocessors: {
-      '../test/**/*.js': ['webpack', 'coverage'],
-      '../src/**/*.js': ['webpack', 'coverage']
+      // '../test/**/*.js': ['webpack', 'coverage'],
+      '../src/**/*.js': ['webpack', 'coverage'],
+      './app.js': ['webpack', 'coverage']
     },
 
-    babelPreprocessor: {
-      options: {
-        presets: [
-          ['env', {modules: 'commonjs'}],
-          'stage-2'
-        ],
-        plugins: ['transform-runtime'],
-        sourceMap: 'inline',
-        "env": {
-          "test": {
-            "presets": ["env", "stage-2"],
-            "plugins": [ "istanbul" ]
-          }
-        }
-      }
-    },
     plugins: [
       'karma-coverage',
       'karma-mocha',
@@ -47,7 +33,7 @@ module.exports = function(config) {
 
     coverageReporter: {
       type : 'html',
-      dir : 'coverage/'
+      dir : '../coverage/'
     },
     singleRun: true,
     browsers: ['Chrome'],
