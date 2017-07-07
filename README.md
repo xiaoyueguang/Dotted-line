@@ -68,3 +68,5 @@ let stage = new canvas({
 > 设置点的半径
 * params
 *  radius {number} 半径
+
+> 杏noclip 到此一游 *测试pr*
