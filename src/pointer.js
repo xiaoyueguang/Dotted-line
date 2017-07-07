@@ -1,8 +1,9 @@
 import {random} from './helper.js'
+import tween from './tween'
 
 // 点 对象
 export default class Pointer {
-  constructor (width, height, r, time = 5, color = '#f3f3f3') {
+  constructor (width, height, r, time = 5, color = '#f3f3f3', bezier = 'linear') {
     this.width = width
     this.height = height
     let x = random(width)
@@ -10,13 +11,13 @@ export default class Pointer {
     this.x = x
     this.y = y
     this.origin = {x, y}
-
+    this.bezier = bezier
     this.color = color
-
     // 最小为 10
-    this.r = random(r, 1)
+    this.r = r
     this.time = time * 1000
     this.targetInit()
+    this.isStart = true
   }
   // 设置开始时间
   setStart () {
@@ -26,6 +27,13 @@ export default class Pointer {
 
   // 生成目标点
   targetInit () {
+    // 当已经开始时, 需要设置原先的点
+    if (this.isStart) {
+      this.origin = {
+        x: this.targetX,
+        y: this.targetY
+      }
+    }
     this.targetX = random(this.width)
     this.targetY = random(this.height)
     this.setStart()
@@ -38,11 +46,11 @@ export default class Pointer {
   }
 
   move (pointer, targetPointer) {
-    let tween = this.getPercent()
+    let percent = this.getPercent()
 
     return targetPointer > pointer ?
-      pointer + Math.abs(targetPointer - pointer) * tween / 100 :
-      pointer - Math.abs(targetPointer - pointer) * tween / 100
+      pointer + Math.abs(targetPointer - pointer) * tween[this.bezier](percent) :
+      pointer - Math.abs(targetPointer - pointer) * tween[this.bezier](percent)
   }
 
   run () {

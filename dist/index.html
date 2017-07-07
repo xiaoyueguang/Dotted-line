@@ -1,13 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>标题</title>
+    <title>一个 DEMO</title>
+    <style>
+      .text {
+        display: inline-block;
+        width: 32px;
+      }
+      .colors div {
+        margin-top: 8px;
+        width: 64px;
+        height: 24px;
+        display: inline-block;
+        cursor: pointer;
+        margin-right: 4px;
+      }
+    </style>
   </head>
   <body>
-    <canvas id="canvas0"></canvas>
-    <canvas id="canvas1"></canvas>
-    <canvas id="canvas2"></canvas>
-    <canvas id="canvas3"></canvas>
-    <script src='./app.js'></script>
+    <form>
+      <label>点的数量 <span id="pointers_text" class="text">15</span></label>
+      <input type="range" value="15" max="100" id="pointers">
+      <label>点的半径 <span id="radius_text" class="text">15</span></label>
+      <input type="range" value="15" max="30" id="radius">
+      <label>大小是否一致</label>
+      <input type="checkbox" max="30" id="same">
+      <br />
+      <input type="color" value="#f3f3f3" max="30" id="color">
+      <label>添加的颜色(点击删除颜色)</label>
+      <div id="colors" class="colors">
+      </div>
+    </form>
+    <canvas id="canvas"></canvas>
+    <script src="./app.js"></script>
+    <script src="./index.js"></script>
   </body>
 </html>
