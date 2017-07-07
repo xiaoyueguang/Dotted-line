@@ -1,12 +1,16 @@
 # Dotted-line
 一个 漂亮的背景图
 
+![test](https://travis-ci.org/xiaoyueguang/Dotted-line.svg?branch=master)  
+![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)  
+![npm](https://img.shields.io/npm/v/npm.svg)
+
 ## 需要从该项目 学习并使用的内容
 - [x] 添加测试
 - [x] package.json
 - [x] README.MD 文档编写
 - [x] npm 发布
-- [ ] 自动化
+- [x] 持续集成
 - [x] 点移动的时候加入线性变化. linear, out-in.等
 - [x] 点数量, 大小, 线的连接, 颜色渐变等.
 - [x] 多个舞台的实现
