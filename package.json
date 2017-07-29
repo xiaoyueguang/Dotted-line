@@ -8,7 +8,7 @@
     "test:cover": "karma start build/karma.cover.conf.js",
     "start": "webpack -w --config build/webpack.config.js",
     "server": "cd dist&&http-server",
-    "build": "webpack --config build/webpack.config.js",
+    "build": "rollup --config ./build/rollup.config.js",
     "release": "bash build/release.sh"
   },
   "repository": {
@@ -36,5 +36,8 @@
     "karma-webpack": "^2.0.3",
     "mocha": "^3.4.2",
     "webpack": "^2.6.1"
+  },
+  "dependencies": {
+    "rollup": "^0.45.2"
   }
 }
