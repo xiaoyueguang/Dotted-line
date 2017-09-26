@@ -1,6 +1,6 @@
 {
   "name": "dotted-line",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "一个 漂亮的背景图",
   "main": "./dist/app.js",
   "scripts": {
@@ -15,6 +15,10 @@
     "type": "git",
     "url": "git+https://github.com/xiaoyueguang/Dotted-line.git"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "author": "Ray",
   "license": "MIT",
   "bugs": {
